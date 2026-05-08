@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: password123
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./data-lake:/data
+
+  spark:
+    image: bitnami/spark:3.5
+    container_name: spark
+    ports:
+      - "8080:8080"
+    environment:
+      - SPARK_MODE=master
+    volumes:
+      - ./spark:/opt/spark-apps
+      - ./data:/data
+
+  trino:
+    image: trinodb/trino:latest
+    container_name: trino
+    ports:
+      - "8081:8080"
+
+  superset:
+    image: apache/superset:latest
+    container_name: superset
+    ports:
+      - "8088:8088"
+    environment:
+      SUPERSET_SECRET_KEY: secret123

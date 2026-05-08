@@ -1,0 +1,4 @@
+sale_id,customer_id,product_id,quantity,total_amount,channel,date
+1,1,2,1,1200,web,2026-01-10
+2,2,1,1,800,store,2026-01-11
+3,3,3,2,300,mobile,2026-01-12
