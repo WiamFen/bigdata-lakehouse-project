@@ -1,0 +1,11 @@
+id_canal,type,nom,ville,region
+CH01,magasin,Magasin Centre-Ville,Casablanca,Grand Casablanca
+CH02,magasin,Magasin Maarif,Casablanca,Grand Casablanca
+CH03,magasin,Magasin Hay Riad,Rabat,Rabat-Salé-Kénitra
+CH04,web,Site E-commerce,N/A,National
+CH05,mobile,Application Mobile,N/A,National
+CH06,marketplace,Jumia,N/A,National
+CH07,marketplace,Amazon.ma,N/A,National
+CH08,magasin,Magasin Guéliz,Marrakech,Marrakech-Safi
+CH09,magasin,Magasin Fès Médina,Fès,Fès-Meknès
+CH10,web,Site Partenaire B2B,N/A,National

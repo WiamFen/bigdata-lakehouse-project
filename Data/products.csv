@@ -1,4 +1,401 @@
-product_id,name,category,price
-1,Phone,Electronics,800
-2,Laptop,Electronics,1200
-3,Headphones,Accessories,150
+id_produit,nom_produit,categorie,marque,prix,prix_achat,poids_kg,stock_initial
+PRD0001,Smartphone Samsung,Électronique,Samsung,3673.01,1576.41,7.62,281
+PRD0002,Smartphone Apple,Électronique,Apple,4055.79,2258.85,1.34,375
+PRD0003,Smartphone Lenovo,Électronique,Lenovo,502.43,311.13,14.14,185
+PRD0004,Smartphone Sony,Électronique,Sony,310.6,178.61,1.7,443
+PRD0005,Smartphone Xiaomi,Électronique,Xiaomi,974.68,597.91,0.99,58
+PRD0006,Laptop Apple,Électronique,Apple,486.86,258.19,5.99,430
+PRD0007,Laptop Huawei,Électronique,Huawei,398.43,215.76,8.88,146
+PRD0008,Laptop Dell,Électronique,Dell,2876.04,1465.93,8.88,165
+PRD0009,Laptop HP,Électronique,HP,3103.71,1428.18,13.68,75
+PRD0010,Laptop Lenovo,Électronique,Lenovo,3080.53,1256.48,5.61,175
+PRD0011,Tablette Apple,Électronique,Apple,2607.1,1694.33,11.84,182
+PRD0012,Tablette Sony,Électronique,Sony,3807.89,1584.29,8.53,304
+PRD0013,Tablette HP,Électronique,HP,1290.39,828.85,8.14,142
+PRD0014,Tablette Xiaomi,Électronique,Xiaomi,1827.69,1003.47,12.27,259
+PRD0015,Tablette Lenovo,Électronique,Lenovo,1810.3,827.23,6.31,114
+PRD0016,Écouteurs Sony,Électronique,Sony,3871.15,2209.26,14.13,358
+PRD0017,Écouteurs Dell,Électronique,Dell,3660.14,1900.05,0.3,416
+PRD0018,Écouteurs Samsung,Électronique,Samsung,3840.77,2090.5,1.14,267
+PRD0019,Écouteurs Huawei,Électronique,Huawei,2842.14,1389.84,6.38,490
+PRD0020,Écouteurs Apple,Électronique,Apple,3303.08,2089.24,4.13,37
+PRD0021,Montre connectée Xiaomi,Électronique,Xiaomi,549.69,294.82,5.32,263
+PRD0022,Montre connectée Lenovo,Électronique,Lenovo,606.35,391.36,6.69,251
+PRD0023,Montre connectée Asus,Électronique,Asus,1931.06,978.19,13.47,485
+PRD0024,Montre connectée Sony,Électronique,Sony,831.57,521.98,1.16,455
+PRD0025,Montre connectée HP,Électronique,HP,4094.94,2037.17,14.19,165
+PRD0026,TV 4K Huawei,Électronique,Huawei,1191.42,686.29,5.3,307
+PRD0027,TV 4K Samsung,Électronique,Samsung,2073.52,904.03,7.56,184
+PRD0028,TV 4K LG,Électronique,LG,3187.45,2038.89,8.09,24
+PRD0029,TV 4K Lenovo,Électronique,Lenovo,3660.53,2316.25,9.81,307
+PRD0030,TV 4K Dell,Électronique,Dell,2042.84,876.6,13.27,329
+PRD0031,Enceinte Bluetooth Samsung,Électronique,Samsung,3626.83,1747.47,1.01,244
+PRD0032,Enceinte Bluetooth Asus,Électronique,Asus,1627.25,864.43,3.95,494
+PRD0033,Enceinte Bluetooth Xiaomi,Électronique,Xiaomi,1666.21,984.19,4.01,230
+PRD0034,Enceinte Bluetooth Apple,Électronique,Apple,3776.41,1669.31,6.04,232
+PRD0035,Enceinte Bluetooth Huawei,Électronique,Huawei,3901.73,2142.9,5.22,319
+PRD0036,Chargeur rapide Lenovo,Électronique,Lenovo,1104.34,694.11,13.11,350
+PRD0037,Chargeur rapide Apple,Électronique,Apple,1659.4,696.72,13.75,481
+PRD0038,Chargeur rapide LG,Électronique,LG,1064.35,622.88,12.78,101
+PRD0039,Chargeur rapide Sony,Électronique,Sony,2417.32,1251.56,10.2,65
+PRD0040,Chargeur rapide Asus,Électronique,Asus,1112.02,593.09,9.11,443
+PRD0041,Webcam HD HP,Électronique,HP,587.29,250.25,3.71,486
+PRD0042,Webcam HD Apple,Électronique,Apple,3962.49,2204.75,7.57,54
+PRD0043,Webcam HD Asus,Électronique,Asus,4042.93,2163.93,9.91,422
+PRD0044,Webcam HD Samsung,Électronique,Samsung,2412.84,1392.42,9.65,316
+PRD0045,Webcam HD Dell,Électronique,Dell,994.16,609.89,0.97,49
+PRD0046,Disque SSD Dell,Électronique,Dell,2859.25,1178.47,11.89,330
+PRD0047,Disque SSD Asus,Électronique,Asus,3276.89,2012.17,14.17,344
+PRD0048,Disque SSD Huawei,Électronique,Huawei,1788.65,977.34,11.58,229
+PRD0049,Disque SSD HP,Électronique,HP,3581.99,2029.78,0.16,472
+PRD0050,Disque SSD Lenovo,Électronique,Lenovo,4589.7,1838.02,7.8,33
+PRD0051,T-shirt Adidas,Vêtements,Adidas,788.32,417.98,11.28,253
+PRD0052,T-shirt Lacoste,Vêtements,Lacoste,257.09,143.86,4.02,246
+PRD0053,T-shirt Bershka,Vêtements,Bershka,626.15,291.64,1.81,33
+PRD0054,T-shirt Pull&Bear,Vêtements,Pull&Bear,237.69,111.02,1.9,367
+PRD0055,T-shirt H&M,Vêtements,H&M,720.22,306.84,6.77,89
+PRD0056,Jean slim Nike,Vêtements,Nike,124.74,76.27,5.0,134
+PRD0057,Jean slim Pull&Bear,Vêtements,Pull&Bear,746.9,335.11,0.94,365
+PRD0058,Jean slim Bershka,Vêtements,Bershka,571.74,275.82,12.73,289
+PRD0059,Jean slim Mango,Vêtements,Mango,885.14,416.51,0.39,290
+PRD0060,Jean slim H&M,Vêtements,H&M,397.17,235.97,0.78,124
+PRD0061,Robe d'été H&M,Vêtements,H&M,334.0,156.2,7.38,457
+PRD0062,Robe d'été Nike,Vêtements,Nike,374.61,185.28,0.87,440
+PRD0063,Robe d'été Pull&Bear,Vêtements,Pull&Bear,477.74,229.73,11.08,484
+PRD0064,Robe d'été Mango,Vêtements,Mango,123.81,64.51,8.37,133
+PRD0065,Robe d'été Lacoste,Vêtements,Lacoste,811.87,354.98,8.11,443
+PRD0066,Veste Zara,Vêtements,Zara,672.98,401.89,1.7,183
+PRD0067,Veste H&M,Vêtements,H&M,744.69,373.19,12.86,44
+PRD0068,Veste Adidas,Vêtements,Adidas,486.01,306.51,11.69,370
+PRD0069,Veste Uniqlo,Vêtements,Uniqlo,476.46,234.05,12.18,180
+PRD0070,Veste Bershka,Vêtements,Bershka,642.44,273.68,11.37,241
+PRD0071,Manteau Uniqlo,Vêtements,Uniqlo,744.59,379.04,8.97,145
+PRD0072,Manteau Pull&Bear,Vêtements,Pull&Bear,438.05,277.96,7.77,430
+PRD0073,Manteau Adidas,Vêtements,Adidas,672.94,388.3,3.99,376
+PRD0074,Manteau Bershka,Vêtements,Bershka,217.41,135.27,3.24,343
+PRD0075,Manteau Zara,Vêtements,Zara,376.32,160.89,13.16,344
+PRD0076,Sneakers Bershka,Vêtements,Bershka,161.66,73.88,12.7,56
+PRD0077,Sneakers H&M,Vêtements,H&M,824.13,341.76,10.36,374
+PRD0078,Sneakers Pull&Bear,Vêtements,Pull&Bear,715.71,362.38,1.75,229
+PRD0079,Sneakers Puma,Vêtements,Puma,387.4,249.61,1.38,420
+PRD0080,Sneakers Uniqlo,Vêtements,Uniqlo,507.06,303.87,3.68,258
+PRD0081,Chemise Mango,Vêtements,Mango,660.99,277.18,14.29,194
+PRD0082,Chemise Zara,Vêtements,Zara,650.13,405.04,5.23,155
+PRD0083,Chemise Uniqlo,Vêtements,Uniqlo,557.95,308.19,12.06,265
+PRD0084,Chemise Bershka,Vêtements,Bershka,864.33,380.21,12.57,234
+PRD0085,Chemise Lacoste,Vêtements,Lacoste,311.83,129.28,8.25,120
+PRD0086,Pull Puma,Vêtements,Puma,148.14,92.09,7.88,372
+PRD0087,Pull Uniqlo,Vêtements,Uniqlo,880.39,421.0,8.96,63
+PRD0088,Pull Bershka,Vêtements,Bershka,144.17,74.13,1.71,180
+PRD0089,Pull H&M,Vêtements,H&M,762.44,377.01,10.26,180
+PRD0090,Pull Adidas,Vêtements,Adidas,490.88,196.47,3.0,399
+PRD0091,Short Bershka,Vêtements,Bershka,260.51,108.18,7.07,394
+PRD0092,Short H&M,Vêtements,H&M,262.1,152.93,5.95,474
+PRD0093,Short Mango,Vêtements,Mango,330.89,169.16,1.67,87
+PRD0094,Short Pull&Bear,Vêtements,Pull&Bear,870.37,524.93,8.82,288
+PRD0095,Short Puma,Vêtements,Puma,586.37,329.56,2.09,312
+PRD0096,Jupe Pull&Bear,Vêtements,Pull&Bear,274.28,165.66,7.47,349
+PRD0097,Jupe Mango,Vêtements,Mango,643.76,264.53,3.41,31
+PRD0098,Jupe H&M,Vêtements,H&M,669.91,357.27,6.47,153
+PRD0099,Jupe Puma,Vêtements,Puma,389.86,163.68,1.94,180
+PRD0100,Jupe Lacoste,Vêtements,Lacoste,702.56,299.68,14.18,415
+PRD0101,Yaourt nature Label'Vie,Alimentation,Label'Vie,32.1,12.91,8.0,229
+PRD0102,Yaourt nature Centrale Danone,Alimentation,Centrale Danone,89.98,55.48,6.6,459
+PRD0103,Yaourt nature Président,Alimentation,Président,88.9,47.6,0.58,114
+PRD0104,Yaourt nature Danone,Alimentation,Danone,130.27,79.18,8.73,350
+PRD0105,Yaourt nature Kiri,Alimentation,Kiri,21.75,13.19,4.08,251
+PRD0106,Fromage Kiri,Alimentation,Kiri,103.69,43.39,12.37,379
+PRD0107,Fromage Label'Vie,Alimentation,Label'Vie,40.58,22.4,10.96,248
+PRD0108,Fromage Fromager d'Affinois,Alimentation,Fromager d'Affinois,91.76,57.16,1.21,200
+PRD0109,Fromage Président,Alimentation,Président,99.62,61.44,11.16,362
+PRD0110,Fromage Local,Alimentation,Local,35.74,20.36,14.37,53
+PRD0111,Jus d'orange Local,Alimentation,Local,109.31,50.33,8.9,379
+PRD0112,Jus d'orange Danone,Alimentation,Danone,177.52,78.5,12.01,101
+PRD0113,Jus d'orange Kiri,Alimentation,Kiri,119.01,60.49,10.9,111
+PRD0114,Jus d'orange Fromager d'Affinois,Alimentation,Fromager d'Affinois,156.34,81.9,14.3,414
+PRD0115,Jus d'orange Marjane,Alimentation,Marjane,184.11,77.18,14.21,34
+PRD0116,Huile d'olive Kiri,Alimentation,Kiri,152.01,83.24,12.31,167
+PRD0117,Huile d'olive Local,Alimentation,Local,124.3,65.09,3.16,263
+PRD0118,Huile d'olive Label'Vie,Alimentation,Label'Vie,100.96,47.86,2.89,168
+PRD0119,Huile d'olive Bio,Alimentation,Bio,72.7,31.16,13.93,484
+PRD0120,Huile d'olive Fromager d'Affinois,Alimentation,Fromager d'Affinois,72.41,44.52,4.14,409
+PRD0121,Miel Label'Vie,Alimentation,Label'Vie,197.35,112.83,0.73,55
+PRD0122,Miel Bio,Alimentation,Bio,183.83,81.53,8.2,264
+PRD0123,Miel Fromager d'Affinois,Alimentation,Fromager d'Affinois,104.48,54.49,5.84,319
+PRD0124,Miel Kiri,Alimentation,Kiri,121.51,74.19,4.37,178
+PRD0125,Miel Danone,Alimentation,Danone,45.02,28.65,2.9,213
+PRD0126,Couscous Kiri,Alimentation,Kiri,180.67,86.28,8.82,356
+PRD0127,Couscous Président,Alimentation,Président,189.87,121.93,14.1,390
+PRD0128,Couscous Fromager d'Affinois,Alimentation,Fromager d'Affinois,144.18,93.4,7.09,79
+PRD0129,Couscous Local,Alimentation,Local,41.23,16.87,3.56,65
+PRD0130,Couscous Nestlé,Alimentation,Nestlé,82.36,33.82,0.75,425
+PRD0131,Sardines Bio,Alimentation,Bio,126.93,69.82,9.61,220
+PRD0132,Sardines Président,Alimentation,Président,141.07,90.55,3.05,339
+PRD0133,Sardines Fromager d'Affinois,Alimentation,Fromager d'Affinois,117.33,62.67,8.71,302
+PRD0134,Sardines Danone,Alimentation,Danone,100.8,65.02,9.15,46
+PRD0135,Sardines Label'Vie,Alimentation,Label'Vie,78.52,41.8,14.13,318
+PRD0136,Biscuits Fromager d'Affinois,Alimentation,Fromager d'Affinois,166.11,94.79,13.31,79
+PRD0137,Biscuits Bio,Alimentation,Bio,22.61,12.03,0.16,138
+PRD0138,Biscuits Président,Alimentation,Président,147.1,73.6,0.78,29
+PRD0139,Biscuits Marjane,Alimentation,Marjane,89.88,52.83,9.07,296
+PRD0140,Biscuits Kiri,Alimentation,Kiri,159.97,83.6,7.72,35
+PRD0141,Café Label'Vie,Alimentation,Label'Vie,185.82,94.73,1.15,210
+PRD0142,Café Kiri,Alimentation,Kiri,16.92,7.31,5.96,224
+PRD0143,Café Marjane,Alimentation,Marjane,56.9,23.41,4.3,166
+PRD0144,Café Local,Alimentation,Local,125.61,80.8,14.85,334
+PRD0145,Café Nestlé,Alimentation,Nestlé,13.83,5.92,5.27,107
+PRD0146,Thé Fromager d'Affinois,Alimentation,Fromager d'Affinois,79.19,32.16,8.92,141
+PRD0147,Thé Nestlé,Alimentation,Nestlé,71.53,38.42,4.4,97
+PRD0148,Thé Bio,Alimentation,Bio,190.88,121.3,0.46,449
+PRD0149,Thé Marjane,Alimentation,Marjane,160.2,78.53,2.98,469
+PRD0150,Thé Kiri,Alimentation,Kiri,108.44,59.57,2.11,295
+PRD0151,Coussin Atmosphera,Maison & Déco,Atmosphera,777.21,334.93,13.52,355
+PRD0152,Coussin Pottery Barn,Maison & Déco,Pottery Barn,851.34,444.89,13.37,427
+PRD0153,Coussin Artisan Local,Maison & Déco,Artisan Local,114.66,68.3,3.86,405
+PRD0154,Coussin Alinéa,Maison & Déco,Alinéa,256.92,113.34,13.54,342
+PRD0155,Coussin Maisons du Monde,Maison & Déco,Maisons du Monde,415.1,183.39,3.43,269
+PRD0156,Lampe de bureau Maisons du Monde,Maison & Déco,Maisons du Monde,736.14,319.96,4.26,483
+PRD0157,Lampe de bureau IKEA,Maison & Déco,IKEA,260.0,157.23,2.67,90
+PRD0158,Lampe de bureau Atmosphera,Maison & Déco,Atmosphera,276.99,140.14,13.99,96
+PRD0159,Lampe de bureau Pottery Barn,Maison & Déco,Pottery Barn,776.22,358.5,3.75,176
+PRD0160,Lampe de bureau Alinéa,Maison & Déco,Alinéa,1131.61,497.51,5.74,415
+PRD0161,Tapis berbère Atmosphera,Maison & Déco,Atmosphera,694.98,343.23,7.53,475
+PRD0162,Tapis berbère Pottery Barn,Maison & Déco,Pottery Barn,1388.92,879.47,7.96,176
+PRD0163,Tapis berbère Habitat,Maison & Déco,Habitat,1037.59,589.21,1.17,253
+PRD0164,Tapis berbère Artisan Local,Maison & Déco,Artisan Local,366.5,203.7,12.1,430
+PRD0165,Tapis berbère Casa,Maison & Déco,Casa,1317.71,554.67,11.91,404
+PRD0166,Cadre photo Artisan Local,Maison & Déco,Artisan Local,255.29,109.1,12.76,326
+PRD0167,Cadre photo Pottery Barn,Maison & Déco,Pottery Barn,683.12,311.92,12.18,272
+PRD0168,Cadre photo Zara Home,Maison & Déco,Zara Home,586.23,254.62,10.47,136
+PRD0169,Cadre photo Casa,Maison & Déco,Casa,264.98,156.39,3.38,270
+PRD0170,Cadre photo Maisons du Monde,Maison & Déco,Maisons du Monde,1163.08,644.88,0.64,33
+PRD0171,Bougie parfumée Cosy,Maison & Déco,Cosy,685.3,337.12,1.34,500
+PRD0172,Bougie parfumée Pottery Barn,Maison & Déco,Pottery Barn,555.82,259.8,11.06,179
+PRD0173,Bougie parfumée Atmosphera,Maison & Déco,Atmosphera,460.96,268.87,2.2,327
+PRD0174,Bougie parfumée Alinéa,Maison & Déco,Alinéa,1359.52,701.26,3.42,95
+PRD0175,Bougie parfumée Maisons du Monde,Maison & Déco,Maisons du Monde,670.12,299.57,11.9,124
+PRD0176,Vase Zara Home,Maison & Déco,Zara Home,1025.45,505.53,10.38,346
+PRD0177,Vase Habitat,Maison & Déco,Habitat,966.28,585.05,3.36,297
+PRD0178,Vase Atmosphera,Maison & Déco,Atmosphera,542.4,248.4,8.95,481
+PRD0179,Vase Artisan Local,Maison & Déco,Artisan Local,159.7,98.41,14.62,188
+PRD0180,Vase Alinéa,Maison & Déco,Alinéa,361.6,157.76,13.77,149
+PRD0181,Miroir Casa,Maison & Déco,Casa,1265.93,517.42,7.22,440
+PRD0182,Miroir Maisons du Monde,Maison & Déco,Maisons du Monde,1306.97,553.37,9.37,64
+PRD0183,Miroir Habitat,Maison & Déco,Habitat,994.73,453.37,3.53,482
+PRD0184,Miroir Atmosphera,Maison & Déco,Atmosphera,377.44,185.52,2.59,343
+PRD0185,Miroir Pottery Barn,Maison & Déco,Pottery Barn,996.43,491.22,0.35,125
+PRD0186,Étagère Casa,Maison & Déco,Casa,1074.15,494.85,3.98,59
+PRD0187,Étagère Habitat,Maison & Déco,Habitat,1347.27,687.48,12.34,91
+PRD0188,Étagère Zara Home,Maison & Déco,Zara Home,83.26,47.08,9.86,87
+PRD0189,Étagère IKEA,Maison & Déco,IKEA,95.5,61.51,6.88,439
+PRD0190,Étagère Maisons du Monde,Maison & Déco,Maisons du Monde,832.1,369.23,1.98,240
+PRD0191,Nappe IKEA,Maison & Déco,IKEA,1057.79,593.06,6.38,20
+PRD0192,Nappe Maisons du Monde,Maison & Déco,Maisons du Monde,1136.57,459.31,9.37,231
+PRD0193,Nappe Habitat,Maison & Déco,Habitat,1218.68,653.19,8.14,430
+PRD0194,Nappe Casa,Maison & Déco,Casa,380.11,208.58,9.2,457
+PRD0195,Nappe Zara Home,Maison & Déco,Zara Home,705.86,450.71,8.45,70
+PRD0196,Plaid Cosy,Maison & Déco,Cosy,174.3,70.5,9.31,289
+PRD0197,Plaid Pottery Barn,Maison & Déco,Pottery Barn,491.53,276.45,7.94,117
+PRD0198,Plaid Casa,Maison & Déco,Casa,512.76,309.65,3.75,498
+PRD0199,Plaid Zara Home,Maison & Déco,Zara Home,691.74,309.62,9.3,218
+PRD0200,Plaid IKEA,Maison & Déco,IKEA,928.58,568.33,11.19,117
+PRD0201,Ballon de foot Adidas,Sport & Loisirs,Adidas,2198.14,1294.63,12.73,448
+PRD0202,Ballon de foot Decathlon,Sport & Loisirs,Decathlon,1021.93,459.15,2.66,327
+PRD0203,Ballon de foot Nike,Sport & Loisirs,Nike,2097.04,1044.34,12.58,331
+PRD0204,Ballon de foot The North Face,Sport & Loisirs,The North Face,285.68,121.25,8.42,214
+PRD0205,Ballon de foot Quechua,Sport & Loisirs,Quechua,981.59,560.14,1.75,57
+PRD0206,Raquette tennis Columbia,Sport & Loisirs,Columbia,2342.64,1418.54,13.87,428
+PRD0207,Raquette tennis Nike,Sport & Loisirs,Nike,1052.02,650.92,2.96,232
+PRD0208,Raquette tennis The North Face,Sport & Loisirs,The North Face,2347.78,1483.28,8.96,307
+PRD0209,Raquette tennis Adidas,Sport & Loisirs,Adidas,520.91,284.51,0.87,27
+PRD0210,Raquette tennis Speedo,Sport & Loisirs,Speedo,89.4,45.94,3.07,102
+PRD0211,Vélo VTT The North Face,Sport & Loisirs,The North Face,1550.57,953.85,4.66,498
+PRD0212,Vélo VTT Decathlon,Sport & Loisirs,Decathlon,2006.49,1260.41,1.3,375
+PRD0213,Vélo VTT Kipsta,Sport & Loisirs,Kipsta,2956.7,1640.7,3.75,471
+PRD0214,Vélo VTT Speedo,Sport & Loisirs,Speedo,2664.81,1080.22,5.54,307
+PRD0215,Vélo VTT Intersport,Sport & Loisirs,Intersport,1590.84,893.0,9.05,71
+PRD0216,Tapis yoga Adidas,Sport & Loisirs,Adidas,874.39,459.68,12.51,94
+PRD0217,Tapis yoga Decathlon,Sport & Loisirs,Decathlon,774.51,391.31,6.53,411
+PRD0218,Tapis yoga Intersport,Sport & Loisirs,Intersport,328.51,185.92,9.36,271
+PRD0219,Tapis yoga The North Face,Sport & Loisirs,The North Face,511.98,331.27,8.42,343
+PRD0220,Tapis yoga Columbia,Sport & Loisirs,Columbia,2847.12,1645.93,2.65,84
+PRD0221,Gants boxe Nike,Sport & Loisirs,Nike,95.6,48.16,0.8,401
+PRD0222,Gants boxe Decathlon,Sport & Loisirs,Decathlon,1829.56,1101.32,4.61,266
+PRD0223,Gants boxe Speedo,Sport & Loisirs,Speedo,2053.79,966.06,10.14,99
+PRD0224,Gants boxe Adidas,Sport & Loisirs,Adidas,2121.95,1157.32,10.13,254
+PRD0225,Gants boxe Kipsta,Sport & Loisirs,Kipsta,2512.74,1259.75,13.64,363
+PRD0226,Sac de sport Puma,Sport & Loisirs,Puma,2867.58,1386.53,1.24,392
+PRD0227,Sac de sport Nike,Sport & Loisirs,Nike,2584.71,1619.34,9.52,91
+PRD0228,Sac de sport Decathlon,Sport & Loisirs,Decathlon,471.63,213.97,4.97,433
+PRD0229,Sac de sport Quechua,Sport & Loisirs,Quechua,775.09,401.66,3.95,461
+PRD0230,Sac de sport Intersport,Sport & Loisirs,Intersport,1485.26,851.86,9.69,197
+PRD0231,Casque vélo Decathlon,Sport & Loisirs,Decathlon,651.46,394.05,14.64,254
+PRD0232,Casque vélo Quechua,Sport & Loisirs,Quechua,2736.62,1349.45,8.77,159
+PRD0233,Casque vélo The North Face,Sport & Loisirs,The North Face,2728.39,1649.23,13.81,283
+PRD0234,Casque vélo Kipsta,Sport & Loisirs,Kipsta,727.65,381.21,13.85,426
+PRD0235,Casque vélo Nike,Sport & Loisirs,Nike,2840.17,1832.3,11.23,469
+PRD0236,Montre sport Puma,Sport & Loisirs,Puma,1241.85,632.18,7.74,401
+PRD0237,Montre sport The North Face,Sport & Loisirs,The North Face,2366.69,1367.61,3.43,35
+PRD0238,Montre sport Decathlon,Sport & Loisirs,Decathlon,2784.38,1253.04,2.52,450
+PRD0239,Montre sport Kipsta,Sport & Loisirs,Kipsta,2668.74,1278.41,5.65,153
+PRD0240,Montre sport Quechua,Sport & Loisirs,Quechua,1628.47,815.4,9.04,247
+PRD0241,Tente camping Decathlon,Sport & Loisirs,Decathlon,1873.67,1004.87,0.19,311
+PRD0242,Tente camping Nike,Sport & Loisirs,Nike,1017.18,519.18,7.84,108
+PRD0243,Tente camping Puma,Sport & Loisirs,Puma,2967.65,1341.88,14.73,366
+PRD0244,Tente camping The North Face,Sport & Loisirs,The North Face,2958.23,1826.89,13.81,192
+PRD0245,Tente camping Intersport,Sport & Loisirs,Intersport,1625.95,705.78,4.18,462
+PRD0246,Palmes Adidas,Sport & Loisirs,Adidas,2732.03,1182.37,6.33,58
+PRD0247,Palmes Speedo,Sport & Loisirs,Speedo,127.65,59.31,4.19,429
+PRD0248,Palmes Puma,Sport & Loisirs,Puma,491.07,306.19,5.51,441
+PRD0249,Palmes The North Face,Sport & Loisirs,The North Face,1219.21,590.55,6.63,235
+PRD0250,Palmes Kipsta,Sport & Loisirs,Kipsta,115.69,68.4,1.71,346
+PRD0251,Crème hydratante Dove,Beauté & Santé,Dove,140.91,62.44,0.52,179
+PRD0252,Crème hydratante Vichy,Beauté & Santé,Vichy,139.22,77.17,12.51,497
+PRD0253,Crème hydratante Nivea,Beauté & Santé,Nivea,293.58,132.11,14.41,33
+PRD0254,Crème hydratante Garnier,Beauté & Santé,Garnier,146.0,62.06,9.11,153
+PRD0255,Crème hydratante Avène,Beauté & Santé,Avène,212.2,135.11,0.25,96
+PRD0256,Shampooing La Roche-Posay,Beauté & Santé,La Roche-Posay,291.91,124.86,9.44,248
+PRD0257,Shampooing Yves Rocher,Beauté & Santé,Yves Rocher,417.64,211.34,14.29,385
+PRD0258,Shampooing Nuxe,Beauté & Santé,Nuxe,358.46,153.65,4.28,430
+PRD0259,Shampooing Dove,Beauté & Santé,Dove,403.86,199.47,9.67,302
+PRD0260,Shampooing Vichy,Beauté & Santé,Vichy,182.22,104.36,6.9,237
+PRD0261,Parfum Maybelline,Beauté & Santé,Maybelline,310.07,193.13,14.55,113
+PRD0262,Parfum La Roche-Posay,Beauté & Santé,La Roche-Posay,287.56,126.53,12.64,252
+PRD0263,Parfum Dove,Beauté & Santé,Dove,357.2,179.55,14.63,162
+PRD0264,Parfum Garnier,Beauté & Santé,Garnier,495.91,265.9,5.05,168
+PRD0265,Parfum Nuxe,Beauté & Santé,Nuxe,406.6,210.19,3.72,170
+PRD0266,Rouge à lèvres Nuxe,Beauté & Santé,Nuxe,80.27,41.95,5.86,146
+PRD0267,Rouge à lèvres Yves Rocher,Beauté & Santé,Yves Rocher,199.16,124.48,2.47,393
+PRD0268,Rouge à lèvres Dove,Beauté & Santé,Dove,377.33,200.2,3.59,86
+PRD0269,Rouge à lèvres L'Oréal,Beauté & Santé,L'Oréal,346.39,153.53,11.32,167
+PRD0270,Rouge à lèvres La Roche-Posay,Beauté & Santé,La Roche-Posay,226.18,111.21,14.33,180
+PRD0271,Sérum visage Dove,Beauté & Santé,Dove,489.85,295.11,12.4,88
+PRD0272,Sérum visage Nivea,Beauté & Santé,Nivea,206.65,108.23,8.63,118
+PRD0273,Sérum visage Nuxe,Beauté & Santé,Nuxe,446.04,268.41,0.81,389
+PRD0274,Sérum visage Vichy,Beauté & Santé,Vichy,380.01,170.27,4.1,122
+PRD0275,Sérum visage L'Oréal,Beauté & Santé,L'Oréal,51.92,31.03,7.01,450
+PRD0276,Gel douche L'Oréal,Beauté & Santé,L'Oréal,423.87,262.97,2.79,277
+PRD0277,Gel douche Avène,Beauté & Santé,Avène,284.34,118.17,8.59,193
+PRD0278,Gel douche Nivea,Beauté & Santé,Nivea,203.13,81.75,12.04,446
+PRD0279,Gel douche Nuxe,Beauté & Santé,Nuxe,104.83,45.15,1.94,216
+PRD0280,Gel douche Yves Rocher,Beauté & Santé,Yves Rocher,122.94,67.49,5.56,161
+PRD0281,Déodorant Yves Rocher,Beauté & Santé,Yves Rocher,448.45,222.14,10.62,241
+PRD0282,Déodorant L'Oréal,Beauté & Santé,L'Oréal,94.89,52.48,10.29,36
+PRD0283,Déodorant La Roche-Posay,Beauté & Santé,La Roche-Posay,341.66,220.04,10.72,185
+PRD0284,Déodorant Garnier,Beauté & Santé,Garnier,58.52,28.5,2.07,225
+PRD0285,Déodorant Nuxe,Beauté & Santé,Nuxe,179.03,110.48,13.72,450
+PRD0286,Masque cheveux Garnier,Beauté & Santé,Garnier,397.87,165.58,4.62,206
+PRD0287,Masque cheveux Nuxe,Beauté & Santé,Nuxe,96.89,52.2,6.63,430
+PRD0288,Masque cheveux L'Oréal,Beauté & Santé,L'Oréal,381.94,199.83,0.99,33
+PRD0289,Masque cheveux Dove,Beauté & Santé,Dove,31.93,17.0,4.14,197
+PRD0290,Masque cheveux Nivea,Beauté & Santé,Nivea,55.32,30.94,3.16,194
+PRD0291,Fond de teint Nuxe,Beauté & Santé,Nuxe,271.03,152.79,2.87,474
+PRD0292,Fond de teint La Roche-Posay,Beauté & Santé,La Roche-Posay,181.26,85.97,9.72,119
+PRD0293,Fond de teint Garnier,Beauté & Santé,Garnier,484.68,272.96,6.51,221
+PRD0294,Fond de teint Vichy,Beauté & Santé,Vichy,101.65,45.91,14.66,48
+PRD0295,Fond de teint Nivea,Beauté & Santé,Nivea,89.84,53.97,9.49,36
+PRD0296,Vernis Nuxe,Beauté & Santé,Nuxe,226.06,120.78,3.7,242
+PRD0297,Vernis Garnier,Beauté & Santé,Garnier,421.21,236.17,6.59,249
+PRD0298,Vernis Avène,Beauté & Santé,Avène,364.88,147.24,13.46,349
+PRD0299,Vernis Nivea,Beauté & Santé,Nivea,231.84,95.31,5.1,408
+PRD0300,Vernis Yves Rocher,Beauté & Santé,Yves Rocher,140.14,58.33,8.73,313
+PRD0301,Roman Le Robert,Livres & Culture,Le Robert,196.99,110.95,5.89,206
+PRD0302,Roman Flammarion,Livres & Culture,Flammarion,199.57,89.14,8.44,332
+PRD0303,Roman Nathan,Livres & Culture,Nathan,220.68,136.91,6.31,108
+PRD0304,Roman Dalloz,Livres & Culture,Dalloz,75.24,36.2,13.79,248
+PRD0305,Roman Folio,Livres & Culture,Folio,269.94,167.44,1.7,486
+PRD0306,Manuel scolaire Flammarion,Livres & Culture,Flammarion,286.71,117.42,5.82,138
+PRD0307,Manuel scolaire Folio,Livres & Culture,Folio,147.05,68.59,8.77,65
+PRD0308,Manuel scolaire Hachette,Livres & Culture,Hachette,223.48,110.66,14.65,486
+PRD0309,Manuel scolaire Éditions du Seuil,Livres & Culture,Éditions du Seuil,147.17,66.9,3.76,479
+PRD0310,Manuel scolaire Nathan,Livres & Culture,Nathan,264.14,122.06,3.09,185
+PRD0311,Dictionnaire Larousse,Livres & Culture,Larousse,96.09,42.71,11.42,151
+PRD0312,Dictionnaire Nathan,Livres & Culture,Nathan,111.11,67.07,11.78,68
+PRD0313,Dictionnaire Hachette,Livres & Culture,Hachette,144.36,78.86,4.17,486
+PRD0314,Dictionnaire Éditions du Seuil,Livres & Culture,Éditions du Seuil,63.94,30.82,2.46,278
+PRD0315,Dictionnaire Folio,Livres & Culture,Folio,145.63,62.38,14.65,333
+PRD0316,Livre de cuisine Gallimard,Livres & Culture,Gallimard,208.41,84.31,7.35,443
+PRD0317,Livre de cuisine Folio,Livres & Culture,Folio,191.78,104.1,6.64,375
+PRD0318,Livre de cuisine Actes Sud,Livres & Culture,Actes Sud,269.14,173.47,0.53,28
+PRD0319,Livre de cuisine Le Robert,Livres & Culture,Le Robert,212.99,138.05,14.66,70
+PRD0320,Livre de cuisine Larousse,Livres & Culture,Larousse,75.18,38.34,1.02,35
+PRD0321,BD Larousse,Livres & Culture,Larousse,276.36,150.93,10.53,54
+PRD0322,BD Nathan,Livres & Culture,Nathan,120.14,49.6,6.21,198
+PRD0323,BD Éditions du Seuil,Livres & Culture,Éditions du Seuil,197.27,119.14,0.59,420
+PRD0324,BD Gallimard,Livres & Culture,Gallimard,248.5,147.56,9.91,113
+PRD0325,BD Dalloz,Livres & Culture,Dalloz,257.91,146.97,11.2,337
+PRD0326,Atlas Dalloz,Livres & Culture,Dalloz,154.68,87.06,10.37,229
+PRD0327,Atlas Actes Sud,Livres & Culture,Actes Sud,211.32,88.86,5.19,55
+PRD0328,Atlas Flammarion,Livres & Culture,Flammarion,75.84,38.61,2.1,231
+PRD0329,Atlas Nathan,Livres & Culture,Nathan,298.37,145.22,2.2,210
+PRD0330,Atlas Folio,Livres & Culture,Folio,56.28,33.66,12.98,276
+PRD0331,Cahier d'exercices Hachette,Livres & Culture,Hachette,85.55,37.47,7.94,359
+PRD0332,Cahier d'exercices Larousse,Livres & Culture,Larousse,115.02,54.26,8.83,286
+PRD0333,Cahier d'exercices Actes Sud,Livres & Culture,Actes Sud,128.39,55.28,6.39,290
+PRD0334,Cahier d'exercices Éditions du Seuil,Livres & Culture,Éditions du Seuil,58.15,27.24,11.66,31
+PRD0335,Cahier d'exercices Nathan,Livres & Culture,Nathan,205.75,96.01,5.7,484
+PRD0336,Agenda Folio,Livres & Culture,Folio,232.74,130.86,13.99,250
+PRD0337,Agenda Nathan,Livres & Culture,Nathan,287.2,124.72,1.49,72
+PRD0338,Agenda Hachette,Livres & Culture,Hachette,108.32,46.19,1.73,112
+PRD0339,Agenda Actes Sud,Livres & Culture,Actes Sud,197.62,127.37,5.26,277
+PRD0340,Agenda Dalloz,Livres & Culture,Dalloz,282.39,148.49,1.11,120
+PRD0341,Livre d'art Actes Sud,Livres & Culture,Actes Sud,93.71,55.61,14.86,174
+PRD0342,Livre d'art Larousse,Livres & Culture,Larousse,191.13,96.71,7.05,55
+PRD0343,Livre d'art Éditions du Seuil,Livres & Culture,Éditions du Seuil,226.1,99.49,5.13,478
+PRD0344,Livre d'art Folio,Livres & Culture,Folio,280.68,119.88,8.88,140
+PRD0345,Livre d'art Dalloz,Livres & Culture,Dalloz,180.47,87.64,2.1,493
+PRD0346,Guide voyage Éditions du Seuil,Livres & Culture,Éditions du Seuil,282.1,172.68,1.28,205
+PRD0347,Guide voyage Le Robert,Livres & Culture,Le Robert,265.83,126.99,12.28,317
+PRD0348,Guide voyage Gallimard,Livres & Culture,Gallimard,218.8,121.98,13.08,24
+PRD0349,Guide voyage Hachette,Livres & Culture,Hachette,105.97,58.92,9.43,312
+PRD0350,Guide voyage Larousse,Livres & Culture,Larousse,238.74,135.03,14.12,136
+PRD0351,Puzzle Mattel,Jouets & Enfants,Mattel,75.72,45.92,8.78,466
+PRD0352,Puzzle Hasbro,Jouets & Enfants,Hasbro,644.18,297.05,10.66,483
+PRD0353,Puzzle LEGO,Jouets & Enfants,LEGO,434.77,211.61,9.7,495
+PRD0354,Puzzle Fisher-Price,Jouets & Enfants,Fisher-Price,146.57,80.52,11.4,127
+PRD0355,Puzzle Ravensburger,Jouets & Enfants,Ravensburger,450.81,258.79,13.82,158
+PRD0356,Voiture télécommandée Fisher-Price,Jouets & Enfants,Fisher-Price,477.93,200.75,14.45,290
+PRD0357,Voiture télécommandée Mattel,Jouets & Enfants,Mattel,387.37,235.63,2.76,131
+PRD0358,Voiture télécommandée LEGO,Jouets & Enfants,LEGO,52.39,21.04,2.59,446
+PRD0359,Voiture télécommandée Janod,Jouets & Enfants,Janod,613.74,327.3,13.18,51
+PRD0360,Voiture télécommandée Hasbro,Jouets & Enfants,Hasbro,710.62,358.55,12.55,401
+PRD0361,Poupée Chicco,Jouets & Enfants,Chicco,159.83,74.79,1.29,213
+PRD0362,Poupée Fisher-Price,Jouets & Enfants,Fisher-Price,178.61,94.21,0.4,417
+PRD0363,Poupée Hasbro,Jouets & Enfants,Hasbro,360.6,215.91,14.06,257
+PRD0364,Poupée Clementoni,Jouets & Enfants,Clementoni,230.43,102.07,7.83,437
+PRD0365,Poupée Playmobil,Jouets & Enfants,Playmobil,479.67,297.76,9.43,348
+PRD0366,Construction LEGO LEGO,Jouets & Enfants,LEGO,426.69,259.26,9.35,29
+PRD0367,Construction LEGO VTech,Jouets & Enfants,VTech,372.14,233.2,5.32,48
+PRD0368,Construction LEGO Chicco,Jouets & Enfants,Chicco,546.93,276.98,13.27,139
+PRD0369,Construction LEGO Mattel,Jouets & Enfants,Mattel,258.67,161.44,0.44,428
+PRD0370,Construction LEGO Janod,Jouets & Enfants,Janod,161.54,92.19,7.45,230
+PRD0371,Peluche Mattel,Jouets & Enfants,Mattel,382.74,175.49,9.2,309
+PRD0372,Peluche VTech,Jouets & Enfants,VTech,745.93,346.69,3.23,67
+PRD0373,Peluche Hasbro,Jouets & Enfants,Hasbro,572.95,319.39,6.47,448
+PRD0374,Peluche Clementoni,Jouets & Enfants,Clementoni,104.18,52.28,7.81,472
+PRD0375,Peluche Fisher-Price,Jouets & Enfants,Fisher-Price,258.26,149.44,2.67,464
+PRD0376,Jeu de société Mattel,Jouets & Enfants,Mattel,473.94,218.19,14.03,470
+PRD0377,Jeu de société Chicco,Jouets & Enfants,Chicco,270.3,171.99,9.13,100
+PRD0378,Jeu de société Ravensburger,Jouets & Enfants,Ravensburger,727.65,339.54,11.98,302
+PRD0379,Jeu de société Playmobil,Jouets & Enfants,Playmobil,517.7,258.98,1.62,440
+PRD0380,Jeu de société Janod,Jouets & Enfants,Janod,357.33,154.07,8.08,257
+PRD0381,Tricycle LEGO,Jouets & Enfants,LEGO,684.06,300.45,13.96,428
+PRD0382,Tricycle Janod,Jouets & Enfants,Janod,405.4,207.07,13.72,243
+PRD0383,Tricycle Mattel,Jouets & Enfants,Mattel,350.24,171.53,13.5,262
+PRD0384,Tricycle Clementoni,Jouets & Enfants,Clementoni,717.47,396.12,14.78,189
+PRD0385,Tricycle Chicco,Jouets & Enfants,Chicco,410.9,222.61,2.94,55
+PRD0386,Tableau magnétique Fisher-Price,Jouets & Enfants,Fisher-Price,102.86,51.04,7.5,367
+PRD0387,Tableau magnétique Chicco,Jouets & Enfants,Chicco,730.97,412.84,9.67,378
+PRD0388,Tableau magnétique Clementoni,Jouets & Enfants,Clementoni,539.21,246.7,7.21,428
+PRD0389,Tableau magnétique VTech,Jouets & Enfants,VTech,412.79,200.67,8.88,385
+PRD0390,Tableau magnétique Hasbro,Jouets & Enfants,Hasbro,70.31,44.69,5.23,375
+PRD0391,Déguisement Fisher-Price,Jouets & Enfants,Fisher-Price,572.39,239.59,13.95,35
+PRD0392,Déguisement Mattel,Jouets & Enfants,Mattel,503.3,323.54,1.71,339
+PRD0393,Déguisement Hasbro,Jouets & Enfants,Hasbro,695.11,369.63,14.76,437
+PRD0394,Déguisement Clementoni,Jouets & Enfants,Clementoni,254.02,160.46,6.54,131
+PRD0395,Déguisement LEGO,Jouets & Enfants,LEGO,562.07,238.45,2.93,187
+PRD0396,Dînette Chicco,Jouets & Enfants,Chicco,113.14,70.53,1.47,49
+PRD0397,Dînette LEGO,Jouets & Enfants,LEGO,751.95,348.48,5.19,364
+PRD0398,Dînette VTech,Jouets & Enfants,VTech,484.27,255.62,9.16,331
+PRD0399,Dînette Fisher-Price,Jouets & Enfants,Fisher-Price,733.09,362.26,7.87,174
+PRD0400,Dînette Ravensburger,Jouets & Enfants,Ravensburger,290.67,139.94,4.21,220
