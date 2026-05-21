@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <configuration>
+
   <!-- Connexion PostgreSQL Metastore -->
   <property>
     <name>javax.jdo.option.ConnectionURL</name>
@@ -18,31 +19,69 @@
     <value>hive123</value>
   </property>
 
-  <!-- Metastore URI -->
+  <!-- Schéma auto-init -->
   <property>
-    <name>hive.metastore.uris</name>
-    <value>thrift://hive-metastore:9083</value>
-  </property>
-
-  <!-- Warehouse MinIO -->
-  <property>
-    <name>hive.metastore.warehouse.dir</name>
-    <value>s3a://warehouse/</value>
-  </property>
-
-  <!-- Schéma auto -->
-  <property>
-    <name>datanucleus.schema.autoCreateAll</name>
+    <name>datanucleus.autoCreateSchema</name>
     <value>true</value>
+  </property>
+  <property>
+    <name>datanucleus.autoCreateTables</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>datanucleus.fixedDatastore</name>
+    <value>false</value>
   </property>
   <property>
     <name>hive.metastore.schema.verification</name>
     <value>false</value>
   </property>
 
-  <!-- Iceberg -->
+  <!-- Metastore URI -->
   <property>
-    <name>iceberg.engine.hive.enabled</name>
+    <name>hive.metastore.uris</name>
+    <value>thrift://0.0.0.0:9083</value>
+  </property>
+
+  <!-- Warehouse vers MinIO S3A -->
+  <property>
+    <name>hive.metastore.warehouse.dir</name>
+    <value>s3a://lakehouse-bronze/warehouse/</value>
+  </property>
+
+  <!-- S3A / MinIO -->
+  <property>
+    <name>fs.s3a.endpoint</name>
+    <value>http://minio:9000</value>
+  </property>
+  <property>
+    <name>fs.s3a.access.key</name>
+    <value>minioadmin</value>
+  </property>
+  <property>
+    <name>fs.s3a.secret.key</name>
+    <value>minioadmin123</value>
+  </property>
+  <property>
+    <name>fs.s3a.path.style.access</name>
     <value>true</value>
+  </property>
+  <property>
+    <name>fs.s3a.impl</name>
+    <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+  </property>
+  <property>
+    <name>fs.s3a.connection.ssl.enabled</name>
+    <value>false</value>
+  </property>
+  <property>
+    <name>fs.s3a.aws.credentials.provider</name>
+    <value>org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider</value>
+  </property>
+
+  <!-- Désactiver auth HMS -->
+  <property>
+    <name>hive.metastore.event.db.notification.api.auth</name>
+    <value>false</value>
   </property>
 </configuration>
