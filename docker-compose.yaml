@@ -150,6 +150,7 @@ services:
       - ./spark/jobs:/opt/spark-jobs
       - ./docker/spark/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
       - ./data:/opt/spark-data
+      - ./minio-init:/opt/minio-init
     networks:
       - lakehouse-net
     depends_on:
