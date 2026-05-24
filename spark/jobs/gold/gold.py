@@ -1,168 +1,376 @@
 """
-Gold Layer — gold.py
-Builds all analytical (Gold) tables from Silver data.
-Tables produced:
-  - gold_sales_daily
-  - gold_sales_by_channel
-  - gold_sales_by_region
-  - gold_top_products
-  - gold_return_rate
-  - gold_customer_basket
-  - gold_sales_by_category
-  - gold_sales_by_segment
+=============================================================
+GOLD — gold.py
+=============================================================
+Construit toutes les tables Gold (KPIs) à partir de Silver.
+Colonnes adaptées aux fichiers CSV réels du projet.
+
+Tables produites :
+  gold_sales_daily        — CA par jour + canal
+  gold_sales_by_channel   — CA par canal de vente
+  gold_sales_by_region    — CA par ville/région
+  gold_top_products       — Top produits par CA et quantité
+  gold_customer_basket    — Panier moyen par client
+  gold_return_rate        — Taux de retour par produit
+  gold_sales_by_category  — Évolution par catégorie
+  gold_customer_segments  — Répartition par segment
+
+Usage :
+  spark-submit /opt/spark-jobs/gold/gold.py
+=============================================================
 """
+
 import sys
-import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, '/opt/spark-jobs')
 
+from pyspark.sql import functions as F
+from pyspark.sql.window import Window
 from utils.spark_session import get_spark_session
-from pyspark.sql import functions as F, DataFrame
+import logging
 
-CATALOG = "lakehouse"
-SILVER_DB = "silver"
-GOLD_DB = "gold"
-
-
-def write_gold(spark, df: DataFrame, table_name: str, partition_cols=None):
-    spark.sql(f"CREATE DATABASE IF NOT EXISTS {CATALOG}.{GOLD_DB} "
-              f"LOCATION 's3a://lakehouse-gold/'")
-    df = df.withColumn("_computed_at", F.current_timestamp())
-    writer = df.writeTo(f"{CATALOG}.{GOLD_DB}.{table_name}") \
-               .tableProperty("write.format.default", "parquet")
-    if partition_cols:
-        writer = writer.partitionedBy(*partition_cols)
-    writer.createOrReplace()
-    print(f"[GOLD] ✓ {table_name}: {df.count()} rows")
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s [%(levelname)s] %(message)s')
+log = logging.getLogger("gold")
 
 
-def build_gold_sales_daily(spark):
-    """CA par jour"""
-    df = spark.table(f"{CATALOG}.{SILVER_DB}.silver_sales") \
-              .filter(F.col("statut") != "annulé")
-    return df.groupBy("date", "annee", "mois", "semaine").agg(
-        F.sum("montant").alias("ca_total"),
-        F.count("id_vente").alias("nb_ventes"),
-        F.sum("quantite").alias("quantite_totale"),
-        F.avg("montant").alias("panier_moyen"),
-    ).orderBy("date")
+def ensure_gold(spark):
+    spark.sql("CREATE NAMESPACE IF NOT EXISTS lakehouse.gold")
 
 
-def build_gold_sales_by_channel(spark):
-    """CA par canal de vente"""
-    sales = spark.table(f"{CATALOG}.{SILVER_DB}.silver_sales").filter(F.col("statut") != "annulé")
-    channels = spark.table(f"{CATALOG}.{SILVER_DB}.silver_channels")
-    df = sales.join(channels, "id_canal", "left")
-    return df.groupBy("id_canal", "nom", "type").agg(
-        F.sum("montant").alias("ca_total"),
-        F.count("id_vente").alias("nb_ventes"),
-        F.sum("quantite").alias("quantite_totale"),
-        F.avg("montant").alias("panier_moyen"),
-    ).orderBy(F.desc("ca_total"))
+# ─────────────────────────────────────────────────────────────
+# GOLD 1 — Ventes quotidiennes
+# ─────────────────────────────────────────────────────────────
+def gold_sales_daily(spark):
+    log.info("Gold → gold_sales_daily")
 
+    # Jointure sales ← channels pour récupérer type du canal
+    s  = spark.table("lakehouse.silver.silver_sales")
+    ch = spark.table("lakehouse.silver.silver_channels") \
+              .select("id_canal", "type", F.col("nom").alias("canal_nom"))
 
-def build_gold_sales_by_region(spark):
-    """CA par région / ville"""
-    sales = spark.table(f"{CATALOG}.{SILVER_DB}.silver_sales").filter(F.col("statut") != "annulé")
-    customers = spark.table(f"{CATALOG}.{SILVER_DB}.silver_customers")
-    df = sales.join(customers.select("id_client", "ville", "region"), "id_client", "left")
-    return df.groupBy("region", "ville").agg(
-        F.sum("montant").alias("ca_total"),
-        F.count("id_vente").alias("nb_ventes"),
-        F.countDistinct("id_client").alias("nb_clients"),
-    ).orderBy(F.desc("ca_total"))
-
-
-def build_gold_top_products(spark):
-    """Top produits vendus"""
-    sales = spark.table(f"{CATALOG}.{SILVER_DB}.silver_sales").filter(F.col("statut") != "annulé")
-    products = spark.table(f"{CATALOG}.{SILVER_DB}.silver_products")
-    df = sales.join(products.select("id_produit", "nom_produit", "categorie", "marque"), "id_produit", "left")
-    return df.groupBy("id_produit", "nom_produit", "categorie", "marque").agg(
-        F.sum("quantite").alias("quantite_vendue"),
-        F.sum("montant").alias("ca_total"),
-        F.count("id_vente").alias("nb_ventes"),
-        F.avg("prix_unitaire").alias("prix_moyen"),
-    ).orderBy(F.desc("ca_total"))
-
-
-def build_gold_return_rate(spark):
-    """Taux de retour par produit"""
-    sales = spark.table(f"{CATALOG}.{SILVER_DB}.silver_sales").filter(F.col("statut") != "annulé")
-    returns = spark.table(f"{CATALOG}.{SILVER_DB}.silver_returns")
-    products = spark.table(f"{CATALOG}.{SILVER_DB}.silver_products")
-
-    sales_agg = sales.groupBy("id_produit").agg(
-        F.sum("quantite").alias("quantite_vendue"),
-        F.count("id_vente").alias("nb_ventes"),
-        F.sum("montant").alias("ca_total"),
+    g = (
+        s.join(ch, on="id_canal", how="left")
+        .groupBy("date", "annee", "mois", "semaine", "trimestre",
+                 "id_canal", "type", "canal_nom")
+        .agg(
+            F.count("id_vente").alias("nb_commandes"),
+            F.sum("quantite").alias("total_quantite"),
+            F.round(F.sum("montant"), 2).alias("chiffre_affaires"),
+            F.round(F.avg("montant"), 2).alias("panier_moyen"),
+            F.countDistinct("id_client").alias("clients_uniques"),
+            F.round(F.sum(F.col("montant") * F.coalesce(F.col("remise_pct"), F.lit(0)) / 100), 2)
+              .alias("total_remises"),
+        )
+        .orderBy("date")
     )
-    returns_agg = returns.groupBy("id_produit").agg(
-        F.sum("quantite_retournee").alias("quantite_retournee"),
-        F.count("id_retour").alias("nb_retours"),
-        F.sum("montant_rembourse").alias("montant_rembourse"),
+
+    g.writeTo("lakehouse.gold.gold_sales_daily") \
+     .partitionedBy("annee", "mois") \
+     .createOrReplace()
+    log.info(f"  ✓ gold_sales_daily ({g.count()} lignes)")
+
+
+# ─────────────────────────────────────────────────────────────
+# GOLD 2 — Ventes par canal
+# ─────────────────────────────────────────────────────────────
+def gold_sales_by_channel(spark):
+    log.info("Gold → gold_sales_by_channel")
+
+    s  = spark.table("lakehouse.silver.silver_sales")
+    ch = spark.table("lakehouse.silver.silver_channels") \
+              .select("id_canal", "type", F.col("nom").alias("canal_nom"))
+
+    g = (
+        s.join(ch, on="id_canal", how="left")
+        .groupBy("id_canal", "type", "canal_nom", "annee", "mois")
+        .agg(
+            F.count("id_vente").alias("nb_commandes"),
+            F.sum("quantite").alias("total_quantite"),
+            F.round(F.sum("montant"), 2).alias("chiffre_affaires"),
+            F.round(F.avg("montant"), 2).alias("panier_moyen"),
+            F.countDistinct("id_client").alias("clients_uniques"),
+        )
     )
-    df = sales_agg.join(returns_agg, "id_produit", "left") \
-                  .join(products.select("id_produit", "nom_produit", "categorie"), "id_produit", "left")
-    df = df.withColumn("quantite_retournee", F.coalesce("quantite_retournee", F.lit(0))) \
-           .withColumn("nb_retours", F.coalesce("nb_retours", F.lit(0))) \
-           .withColumn("montant_rembourse", F.coalesce("montant_rembourse", F.lit(0.0))) \
-           .withColumn("taux_retour_pct",
-               F.round(F.col("quantite_retournee") / F.col("quantite_vendue") * 100, 2))
-    return df.orderBy(F.desc("taux_retour_pct"))
+
+    # Part du canal dans le CA total mensuel
+    w = Window.partitionBy("annee", "mois")
+    # g = g.withColumn("part_ca_pct",
+    #     F.round(F.col("chiffre_affaires") /
+    #             F.sum("chiffre_affaires").over(w) * 100, 2))
+
+    g = g.withColumn(
+    "part_ca_pct",
+    F.when(
+        F.sum("chiffre_affaires").over(w) != 0,
+        F.round(
+            F.col("chiffre_affaires") /
+            F.sum("chiffre_affaires").over(w) * 100,
+            2
+        )
+    ).otherwise(0)
+)            
+
+    g.writeTo("lakehouse.gold.gold_sales_by_channel").createOrReplace()
+    log.info(f"  ✓ gold_sales_by_channel ({g.count()} lignes)")
 
 
-def build_gold_customer_basket(spark):
-    """Panier moyen par client"""
-    sales = spark.table(f"{CATALOG}.{SILVER_DB}.silver_sales").filter(F.col("statut") != "annulé")
-    customers = spark.table(f"{CATALOG}.{SILVER_DB}.silver_customers")
-    df = sales.groupBy("id_client").agg(
-        F.sum("montant").alias("ca_total"),
-        F.count("id_vente").alias("nb_ventes"),
-        F.avg("montant").alias("panier_moyen"),
-        F.sum("quantite").alias("quantite_totale"),
-        F.min("date").alias("premiere_vente"),
-        F.max("date").alias("derniere_vente"),
+# ─────────────────────────────────────────────────────────────
+# GOLD 3 — Ventes par région/ville (via clients)
+# ─────────────────────────────────────────────────────────────
+def gold_sales_by_region(spark):
+    log.info("Gold → gold_sales_by_region")
+
+    s  = spark.table("lakehouse.silver.silver_sales")
+    cu = spark.table("lakehouse.silver.silver_customers") \
+              .select("id_client", "ville", "region", "segment")
+
+    g = (
+        s.join(cu, on="id_client", how="left")
+        .groupBy("ville", "region", "segment", "annee", "mois")
+        .agg(
+            F.count("id_vente").alias("nb_commandes"),
+            F.sum("quantite").alias("total_quantite"),
+            F.round(F.sum("montant"), 2).alias("chiffre_affaires"),
+            F.round(F.avg("montant"), 2).alias("panier_moyen"),
+            F.countDistinct("id_client").alias("clients_uniques"),
+        )
     )
-    df = df.join(customers.select("id_client", "nom", "prenom", "ville", "region", "segment"), "id_client", "left")
-    return df.orderBy(F.desc("ca_total"))
+
+    g.writeTo("lakehouse.gold.gold_sales_by_region") \
+     .partitionedBy("annee") \
+     .createOrReplace()
+    log.info(f"  ✓ gold_sales_by_region ({g.count()} lignes)")
 
 
-def build_gold_sales_by_category(spark):
-    """Évolution des ventes par catégorie et mois"""
-    sales = spark.table(f"{CATALOG}.{SILVER_DB}.silver_sales").filter(F.col("statut") != "annulé")
-    products = spark.table(f"{CATALOG}.{SILVER_DB}.silver_products")
-    df = sales.join(products.select("id_produit", "categorie"), "id_produit", "left")
-    return df.groupBy("categorie", "annee", "mois").agg(
-        F.sum("montant").alias("ca_total"),
-        F.sum("quantite").alias("quantite_vendue"),
-        F.count("id_vente").alias("nb_ventes"),
-    ).orderBy("categorie", "annee", "mois")
+# ─────────────────────────────────────────────────────────────
+# GOLD 4 — Top produits
+# ─────────────────────────────────────────────────────────────
+def gold_top_products(spark):
+    log.info("Gold → gold_top_products")
+
+    s  = spark.table("lakehouse.silver.silver_sales")
+    pr = spark.table("lakehouse.silver.silver_products") \
+              .select("id_produit", "nom_produit", "categorie",
+                      "marque", "tranche_prix")
+
+    g = (
+        s.join(pr, on="id_produit", how="left")
+        .groupBy("id_produit", "nom_produit", "categorie",
+                 "marque", "tranche_prix", "annee", "mois")
+        .agg(
+            F.count("id_vente").alias("nb_commandes"),
+            F.sum("quantite").alias("total_quantite_vendue"),
+            F.round(F.sum("montant"), 2).alias("chiffre_affaires"),
+            F.round(F.avg("montant"), 2).alias("panier_moyen"),
+        )
+    )
+
+    # Ranking mensuel
+    w_ca  = Window.partitionBy("annee", "mois").orderBy(F.desc("chiffre_affaires"))
+    w_qty = Window.partitionBy("annee", "mois").orderBy(F.desc("total_quantite_vendue"))
+    g = g.withColumn("rang_ca",       F.rank().over(w_ca))
+    g = g.withColumn("rang_quantite", F.rank().over(w_qty))
+
+    g.writeTo("lakehouse.gold.gold_top_products") \
+     .partitionedBy("annee", "mois") \
+     .createOrReplace()
+    log.info(f"  ✓ gold_top_products ({g.count()} lignes)")
 
 
-def build_gold_sales_by_segment(spark):
-    """Répartition des ventes par segment de clientèle"""
-    sales = spark.table(f"{CATALOG}.{SILVER_DB}.silver_sales").filter(F.col("statut") != "annulé")
-    customers = spark.table(f"{CATALOG}.{SILVER_DB}.silver_customers")
-    df = sales.join(customers.select("id_client", "segment"), "id_client", "left")
-    return df.groupBy("segment").agg(
-        F.sum("montant").alias("ca_total"),
-        F.count("id_vente").alias("nb_ventes"),
-        F.countDistinct("id_client").alias("nb_clients"),
-        F.avg("montant").alias("panier_moyen"),
-    ).orderBy(F.desc("ca_total"))
+# ─────────────────────────────────────────────────────────────
+# GOLD 5 — Panier client (RFM simplifié)
+# ─────────────────────────────────────────────────────────────
+def gold_customer_basket(spark):
+    log.info("Gold → gold_customer_basket")
+
+    s  = spark.table("lakehouse.silver.silver_sales")
+    cu = spark.table("lakehouse.silver.silver_customers") \
+              .select("id_client", "segment", "ville", "region")
+
+    g = (
+        s.join(cu, on="id_client", how="left")
+        .groupBy("id_client", "segment", "ville", "region", "annee")
+        .agg(
+            F.count("id_vente").alias("nb_commandes"),
+            F.countDistinct("id_produit").alias("nb_produits_distincts"),
+            F.sum("quantite").alias("total_articles"),
+            F.round(F.sum("montant"), 2).alias("total_depenses"),
+            F.round(F.avg("montant"), 2).alias("panier_moyen"),
+            F.round(F.min("montant"), 2).alias("min_commande"),
+            F.round(F.max("montant"), 2).alias("max_commande"),
+            F.min("date").alias("premiere_commande"),
+            F.max("date").alias("derniere_commande"),
+        )
+        .withColumn("recence_jours",
+            F.datediff(F.current_date(), F.col("derniere_commande")))
+        .withColumn("frequence_cat",
+            F.when(F.col("nb_commandes") >= 10, "Très fréquent")
+             .when(F.col("nb_commandes") >= 5,  "Fréquent")
+             .when(F.col("nb_commandes") >= 2,  "Occasionnel")
+             .otherwise("Unique"))
+    )
+
+    g.writeTo("lakehouse.gold.gold_customer_basket") \
+     .partitionedBy("annee") \
+     .createOrReplace()
+    log.info(f"  ✓ gold_customer_basket ({g.count()} lignes)")
 
 
+# ─────────────────────────────────────────────────────────────
+# GOLD 6 — Taux de retour par produit
+# ─────────────────────────────────────────────────────────────
+def gold_return_rate(spark):
+    log.info("Gold → gold_return_rate")
+
+    s  = spark.table("lakehouse.silver.silver_sales")
+    r  = spark.table("lakehouse.silver.silver_returns")
+    pr = spark.table("lakehouse.silver.silver_products") \
+              .select("id_produit", "nom_produit", "categorie", "marque")
+
+    ventes = (
+        s.groupBy("id_produit", "annee", "mois")
+         .agg(F.sum("quantite").alias("qte_vendue"),
+              F.count("id_vente").alias("nb_ventes"))
+    )
+
+    retours = (
+        r.withColumn("annee", F.year("date_retour"))
+         .withColumn("mois",  F.month("date_retour"))
+         .groupBy("id_produit", "annee", "mois")
+         .agg(F.sum("quantite_retournee").alias("qte_retournee"),
+              F.count("id_retour").alias("nb_retours"))
+    )
+
+    g = (
+        ventes
+        .join(retours, on=["id_produit", "annee", "mois"], how="left")
+        .join(pr, on="id_produit", how="left")
+        .fillna(0, subset=["qte_retournee", "nb_retours"])
+        .withColumn("taux_retour_pct",
+            F.when(F.col("qte_vendue") > 0,
+                F.round(F.col("qte_retournee") / F.col("qte_vendue") * 100, 2)
+            ).otherwise(0.0))
+        .withColumn("niveau_retour",
+            F.when(F.col("taux_retour_pct") > 20, "Critique")
+             .when(F.col("taux_retour_pct") > 10, "Élevé")
+             .when(F.col("taux_retour_pct") > 5,  "Normal")
+             .otherwise("Faible"))
+    )
+
+    g.writeTo("lakehouse.gold.gold_return_rate") \
+     .partitionedBy("annee", "mois") \
+     .createOrReplace()
+    log.info(f"  ✓ gold_return_rate ({g.count()} lignes)")
+
+
+# ─────────────────────────────────────────────────────────────
+# GOLD 7 — Évolution par catégorie
+# ─────────────────────────────────────────────────────────────
+def gold_sales_by_category(spark):
+    log.info("Gold → gold_sales_by_category")
+
+    s  = spark.table("lakehouse.silver.silver_sales")
+    pr = spark.table("lakehouse.silver.silver_products") \
+              .select("id_produit", "categorie", "marque")
+
+    g = (
+        s.join(pr, on="id_produit", how="left")
+        .groupBy("categorie", "marque", "annee", "mois", "trimestre")
+        .agg(
+            F.count("id_vente").alias("nb_commandes"),
+            F.sum("quantite").alias("total_quantite"),
+            F.round(F.sum("montant"), 2).alias("chiffre_affaires"),
+            F.round(F.avg("montant"), 2).alias("panier_moyen"),
+            F.countDistinct("id_client").alias("clients_uniques"),
+        )
+    )
+
+    # Croissance MoM par catégorie
+    w = Window.partitionBy("categorie").orderBy("annee", "mois")
+    g = g.withColumn("ca_mois_prec", F.lag("chiffre_affaires", 1).over(w))
+    g = g.withColumn("croissance_mom_pct",
+        F.when((F.col("ca_mois_prec").isNotNull()) & (F.col("ca_mois_prec") != 0),
+            F.round((F.col("chiffre_affaires") - F.col("ca_mois_prec"))
+                    / F.col("ca_mois_prec") * 100, 2)
+        ).otherwise(None))
+
+    g.writeTo("lakehouse.gold.gold_sales_by_category") \
+     .partitionedBy("annee") \
+     .createOrReplace()
+    log.info(f"  ✓ gold_sales_by_category ({g.count()} lignes)")
+
+
+# ─────────────────────────────────────────────────────────────
+# GOLD 8 — Segments clients
+# ─────────────────────────────────────────────────────────────
+def gold_customer_segments(spark):
+    log.info("Gold → gold_customer_segments")
+
+    s  = spark.table("lakehouse.silver.silver_sales")
+    cu = spark.table("lakehouse.silver.silver_customers") \
+              .select("id_client", "segment")
+    ch = spark.table("lakehouse.silver.silver_channels") \
+              .select("id_canal", "type")
+
+    g = (
+        s.join(cu, on="id_client", how="left")
+         .join(ch, on="id_canal", how="left")
+        .groupBy("segment", "type", "annee", "mois")
+        .agg(
+            F.countDistinct("id_client").alias("nb_clients"),
+            F.count("id_vente").alias("nb_commandes"),
+            F.round(F.sum("montant"), 2).alias("chiffre_affaires"),
+            F.round(F.avg("montant"), 2).alias("panier_moyen"),
+            F.round(F.sum("montant") /
+                    F.countDistinct("id_client"), 2).alias("ca_par_client"),
+        )
+    )
+
+    g.writeTo("lakehouse.gold.gold_customer_segments") \
+     .partitionedBy("annee") \
+     .createOrReplace()
+    log.info(f"  ✓ gold_customer_segments ({g.count()} lignes)")
+
+
+# ─────────────────────────────────────────────────────────────
+# MAIN
+# ─────────────────────────────────────────────────────────────
 def main():
-    spark = get_spark_session("Gold-Analytics")
-    write_gold(spark, build_gold_sales_daily(spark),       "gold_sales_daily",       ["annee", "mois"])
-    write_gold(spark, build_gold_sales_by_channel(spark),  "gold_sales_by_channel")
-    write_gold(spark, build_gold_sales_by_region(spark),   "gold_sales_by_region")
-    write_gold(spark, build_gold_top_products(spark),      "gold_top_products")
-    write_gold(spark, build_gold_return_rate(spark),       "gold_return_rate")
-    write_gold(spark, build_gold_customer_basket(spark),   "gold_customer_basket")
-    write_gold(spark, build_gold_sales_by_category(spark), "gold_sales_by_category", ["annee", "mois"])
-    write_gold(spark, build_gold_sales_by_segment(spark),  "gold_sales_by_segment")
-    print("[GOLD] All tables computed successfully.")
+    spark = get_spark_session("Gold_KPIs")
+    spark.sparkContext.setLogLevel("WARN")
+
+    log.info("=" * 55)
+    log.info("DÉMARRAGE — Construction couche Gold")
+    log.info("=" * 55)
+
+    ensure_gold(spark)
+
+    jobs = [
+        ("gold_sales_daily",       gold_sales_daily),
+        ("gold_sales_by_channel",  gold_sales_by_channel),
+        ("gold_sales_by_region",   gold_sales_by_region),
+        ("gold_top_products",      gold_top_products),
+        ("gold_customer_basket",   gold_customer_basket),
+        ("gold_return_rate",       gold_return_rate),
+        ("gold_sales_by_category", gold_sales_by_category),
+        ("gold_customer_segments", gold_customer_segments),
+    ]
+
+    errors = []
+    for name, fn in jobs:
+        try:
+            fn(spark)
+        except Exception as e:
+            log.error(f"ERREUR {name}: {e}")
+            errors.append(name)
+
+    log.info("=" * 55)
+    log.info(f"TERMINÉ Gold — {len(jobs)-len(errors)}/{len(jobs)} tables")
+    if errors:
+        log.error(f"Erreurs : {errors}")
+
+    log.info("Tables Gold :")
+    spark.sql("SHOW TABLES IN lakehouse.gold").show(truncate=False)
     spark.stop()
 
 
