@@ -1,23 +1,18 @@
-# ingest_api.py
+import sys
+sys.path.append("/opt/spark-jobs")
+
 import requests
-import json
-from spark_session import get_spark
+from utils.spark_session import get_spark_session
 
-spark = get_spark()
+spark = get_spark_session()
 
-# FakeStore API
 res1 = requests.get("https://fakestoreapi.com/products").json()
-with open("data/raw/api/fakestore_products.json", "w") as f:
-    json.dump(res1, f)
-
-df1 = spark.read.json("data/raw/api/fakestore_products.json")
-
-# DummyJSON API
 res2 = requests.get("https://dummyjson.com/products").json()["products"]
-with open("data/raw/api/dummyjson_products.json", "w") as f:
-    json.dump(res2, f)
 
-df2 = spark.read.json("data/raw/api/dummyjson_products.json")
+df1 = spark.read.json(spark.sparkContext.parallelize(res1))
+df2 = spark.read.json(spark.sparkContext.parallelize(res2))
 
-df1.write.mode("overwrite").saveAsTable("bronze_fakestore")
-df2.write.mode("overwrite").saveAsTable("bronze_dummyjson")
+df1.writeTo("lakehouse.bronze.bronze_fakestore").createOrReplace()
+df2.writeTo("lakehouse.bronze.bronze_dummyjson").createOrReplace()
+
+print("API ingestion DONE")
